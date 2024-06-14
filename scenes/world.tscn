@@ -23,8 +23,6 @@ environment = SubResource("Environment_u7elb")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
 transform = Transform3D(-0.935893, -0.351693, 0.0203841, -0.229421, 0.652381, 0.722333, -0.267338, 0.67135, -0.691245, 7.66992, 2.84085, 0)
 
-[node name="AsteroidArray" type="Node3D" parent="."]
-
 [node name="Player" parent="." instance=ExtResource("2_xttfg")]
 
 [node name="CameraArm" type="Node3D" parent="."]
@@ -32,3 +30,5 @@ script = ExtResource("3_bxfru")
 
 [node name="Camera" type="Camera3D" parent="CameraArm"]
 transform = Transform3D(-1.14341e-08, 0.965181, -0.261583, 4.21894e-08, 0.261583, 0.965181, 1, 0, -4.37114e-08, -3.255, 10.73, 0)
+
+[node name="AsteroidArray" type="Node3D" parent="."]
