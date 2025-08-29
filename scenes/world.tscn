@@ -1,8 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://bystjc7yxsm62"]
+[gd_scene load_steps=11 format=3 uid="uid://bystjc7yxsm62"]
 
-[ext_resource type="Script" path="res://scripts/world.gd" id="1_ic10e"]
+[ext_resource type="Script" uid="uid://been2ajjt8vxt" path="res://scripts/world.gd" id="1_ic10e"]
 [ext_resource type="PackedScene" uid="uid://juc6rrb3kp0u" path="res://scenes/player.tscn" id="2_xttfg"]
-[ext_resource type="Script" path="res://scripts/camera_arm.gd" id="3_bxfru"]
+[ext_resource type="Script" uid="uid://bgh5njbd6wfjn" path="res://scripts/camera_arm.gd" id="3_bxfru"]
+[ext_resource type="Texture2D" uid="uid://clwf8e08gq8ru" path="res://assets/textures/floor.png" id="4_k0juu"]
+[ext_resource type="Shader" uid="uid://btwen1p482rep" path="res://shaders/edge_detection.gdshader" id="5_71j4m"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_71j4m"]
+albedo_texture = ExtResource("4_k0juu")
+uv1_scale = Vector3(10, 10, 10)
+texture_filter = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_qfnet"]
+size = Vector2(500, 500)
 
 [sub_resource type="Environment" id="Environment_u7elb"]
 background_mode = 1
@@ -14,21 +24,61 @@ ssao_enabled = true
 ssao_intensity = 1.0
 volumetric_fog_density = 0.0197
 
+[sub_resource type="QuadMesh" id="QuadMesh_qfnet"]
+flip_faces = true
+size = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i7141"]
+render_priority = 0
+shader = ExtResource("5_71j4m")
+shader_parameter/lightIntensity = 1.25
+shader_parameter/lineAlpha = 0.7
+shader_parameter/useLighting = true
+shader_parameter/lineHighlight = 0.2
+shader_parameter/lineShadow = 0.55
+
 [node name="World" type="Node3D"]
 script = ExtResource("1_ic10e")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+stretch_shrink = 3
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+size = Vector2i(384, 216)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(0.711646, 0, -0.702538, 0, 1, 0, 0.702538, 0, 0.711646, 0, -1.44993, 0)
+material_override = SubResource("StandardMaterial3D_71j4m")
+mesh = SubResource("PlaneMesh_qfnet")
+skeleton = NodePath("../../..")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/SubViewport"]
 environment = SubResource("Environment_u7elb")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport/WorldEnvironment"]
 transform = Transform3D(-0.935893, -0.351693, 0.0203841, -0.229421, 0.652381, 0.722333, -0.267338, 0.67135, -0.691245, 7.66992, 2.84085, 0)
 
-[node name="Player" parent="." instance=ExtResource("2_xttfg")]
+[node name="Player" parent="SubViewportContainer/SubViewport" instance=ExtResource("2_xttfg")]
 
-[node name="CameraArm" type="Node3D" parent="."]
+[node name="CameraArm" type="Node3D" parent="SubViewportContainer/SubViewport"]
 script = ExtResource("3_bxfru")
 
-[node name="Camera" type="Camera3D" parent="CameraArm"]
-transform = Transform3D(-1.14341e-08, 0.965181, -0.261583, 4.21894e-08, 0.261583, 0.965181, 1, 0, -4.37114e-08, -3.255, 10.73, 0)
+[node name="Camera" type="Camera3D" parent="SubViewportContainer/SubViewport/CameraArm"]
+transform = Transform3D(-3.00518e-08, 0.726179, -0.687506, 3.17423e-08, 0.687506, 0.726179, 1, -7.4607e-14, -4.37114e-08, -6.74743, 7.30882, 0)
+projection = 1
+size = 20.0
 
-[node name="AsteroidArray" type="Node3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/CameraArm/Camera"]
+transform = Transform3D(0.999888, 0.0136757, -0.00608463, -0.0135601, 0.999734, 0.0186639, 0.00633827, -0.0185793, 0.999807, 0, 0, 0)
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_qfnet")
+surface_material_override/0 = SubResource("ShaderMaterial_i7141")
+
+[node name="AsteroidArray" type="Node3D" parent="SubViewportContainer/SubViewport"]

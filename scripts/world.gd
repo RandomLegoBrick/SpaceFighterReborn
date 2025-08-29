@@ -26,7 +26,7 @@ func _ready() -> void:
 		asteroid.position = asteroidPos
 		
 		# add it to the AsteroidArray node, it could be added to the root node but its helpfull to visualize it as an array sometimes
-		$AsteroidArray.add_child(asteroid)
+		$SubViewportContainer/SubViewport/AsteroidArray.add_child(asteroid)
 	
 	
 func _input(event: InputEvent) -> void:

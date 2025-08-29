@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://juc6rrb3kp0u"]
 
-[ext_resource type="ArrayMesh" uid="uid://dx3jvrtjcbxdt" path="res://assets/ships/temp player.obj" id="1_kkxi6"]
-[ext_resource type="Script" path="res://scripts/player.gd" id="1_m03ww"]
+[ext_resource type="ArrayMesh" uid="uid://up2tk62keeh2" path="res://assets/ships/temp player.obj" id="1_kkxi6"]
+[ext_resource type="Script" uid="uid://bb0v27l0hotjf" path="res://scripts/player.gd" id="1_m03ww"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_5ts2a"]
 points = PackedVector3Array(-1.76048, -0.735206, 1.02049, -1.76048, -0.417454, 1.02049, -1.97245, -0.311537, 3.24476, -1.89932, -0.725119, 3.1918, 0.675213, -0.735206, 1.02049, 1.09915, -0.735206, 3.13873, 0.675213, -0.417454, 1.02049, 0.993017, -0.311537, 3.24476, 0.993017, -0.311537, 2.82085, -1.97245, -0.311537, 2.82085, -1.97245, -0.735206, 2.82085, 1.09915, -0.417454, 2.82085, 0.924354, -0.725033, 3.19135, 1.09915, -0.735206, 2.82085)
