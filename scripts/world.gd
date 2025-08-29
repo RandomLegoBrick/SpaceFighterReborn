@@ -21,9 +21,11 @@ func _ready() -> void:
 		
 		# get a random position (randf is 0 to 1)
 		var asteroidPos = Vector3((randf() - 0.5) * WORLD_SIZE, 0, (randf() - 0.5) * WORLD_SIZE)
+		var asteroidRot = Vector3((randf() - 0.5) * PI, (randf() - 0.5) * PI, 0);
 		
 		# set the random position
 		asteroid.position = asteroidPos
+		asteroid.rotation = asteroidRot
 		
 		# add it to the AsteroidArray node, it could be added to the root node but its helpfull to visualize it as an array sometimes
 		$SubViewportContainer/SubViewport/AsteroidArray.add_child(asteroid)
