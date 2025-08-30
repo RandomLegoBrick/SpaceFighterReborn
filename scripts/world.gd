@@ -7,7 +7,7 @@ func _ready() -> void:
 	
 	# smooths everything out, can also enable physics interpolation later for uncapped fps but this was simpler for the moment
 	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
-	Engine.set_physics_ticks_per_second(DisplayServer.screen_get_refresh_rate())
+	Engine.set_physics_ticks_per_second(int(DisplayServer.screen_get_refresh_rate()))
 	
 	
 	# create some asteroids

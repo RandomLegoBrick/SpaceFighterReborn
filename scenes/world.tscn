@@ -1,14 +1,14 @@
-[gd_scene load_steps=11 format=3 uid="uid://bystjc7yxsm62"]
+[gd_scene load_steps=16 format=3 uid="uid://bystjc7yxsm62"]
 
 [ext_resource type="Script" uid="uid://been2ajjt8vxt" path="res://scripts/world.gd" id="1_ic10e"]
+[ext_resource type="Texture2D" uid="uid://b134l4m7nrr6x" path="res://assets/textures/blueprint.png" id="2_71j4m"]
 [ext_resource type="PackedScene" uid="uid://juc6rrb3kp0u" path="res://scenes/player.tscn" id="2_xttfg"]
 [ext_resource type="Script" uid="uid://bgh5njbd6wfjn" path="res://scripts/camera_arm.gd" id="3_bxfru"]
-[ext_resource type="Texture2D" uid="uid://clwf8e08gq8ru" path="res://assets/textures/floor.png" id="4_k0juu"]
 [ext_resource type="Shader" uid="uid://btwen1p482rep" path="res://shaders/edge_detection.gdshader" id="5_71j4m"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_71j4m"]
-albedo_texture = ExtResource("4_k0juu")
-uv1_scale = Vector3(10, 10, 10)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qfnet"]
+albedo_texture = ExtResource("2_71j4m")
+uv1_scale = Vector3(20, 20, 20)
 texture_filter = 0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_qfnet"]
@@ -23,6 +23,35 @@ ambient_light_energy = 0.68
 ssao_enabled = true
 ssao_intensity = 1.0
 volumetric_fog_density = 0.0197
+
+[sub_resource type="Curve" id="Curve_71j4m"]
+_data = [Vector2(0, 0), 0.0, 10.4977, 0, 0, Vector2(0.239168, 0.99586), 0.159257, 0.159257, 0, 0, Vector2(0.994801, 0.109873), -1.8633, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_qfnet"]
+curve = SubResource("Curve_71j4m")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_71j4m"]
+angle_min = -115.9
+angle_max = 223.4
+inherit_velocity_ratio = 0.41
+direction = Vector3(-1, 0, 0)
+initial_velocity_max = 8.13
+gravity = Vector3(0, 0, 0)
+scale_max = 2.5
+scale_curve = SubResource("CurveTexture_qfnet")
+color = Color(0.262932, 0.262932, 0.262932, 1)
+hue_variation_min = -2.23517e-08
+hue_variation_max = -2.23517e-08
+turbulence_noise_speed_random = 0.69
+turbulence_influence_min = 0.366
+turbulence_influence_max = 0.506
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i7141"]
+albedo_color = Color(0.517184, 0.517184, 0.517184, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_qfnet"]
+material = SubResource("StandardMaterial3D_i7141")
 
 [sub_resource type="QuadMesh" id="QuadMesh_qfnet"]
 flip_faces = true
@@ -41,23 +70,22 @@ shader_parameter/lineShadow = 0.55
 script = ExtResource("1_ic10e")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
-texture_filter = 1
+texture_filter = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 stretch = true
-stretch_shrink = 3
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(384, 216)
+size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport"]
-transform = Transform3D(0.711646, 0, -0.702538, 0, 1, 0, 0.702538, 0, 0.711646, 0, -1.44993, 0)
-material_override = SubResource("StandardMaterial3D_71j4m")
+transform = Transform3D(0.711646, 0, -0.702538, 0, 1, 0, 0.702538, 0, 0.711646, 0, -2.38535, 0)
+material_override = SubResource("StandardMaterial3D_qfnet")
 mesh = SubResource("PlaneMesh_qfnet")
 skeleton = NodePath("../../..")
 
@@ -65,9 +93,20 @@ skeleton = NodePath("../../..")
 environment = SubResource("Environment_u7elb")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport/WorldEnvironment"]
-transform = Transform3D(-0.935893, -0.351693, 0.0203841, -0.229421, 0.652381, 0.722333, -0.267338, 0.67135, -0.691245, 7.66992, 2.84085, 0)
+transform = Transform3D(-0.954261, -0.237257, 0.18192, 0.24021, -0.246151, 0.938994, -0.178003, 0.939744, 0.291884, 7.66992, 2.84085, -4.277)
+light_color = Color(0.883316, 0.831216, 0.902823, 1)
+light_energy = 1.3
+shadow_enabled = true
 
 [node name="Player" parent="SubViewportContainer/SubViewport" instance=ExtResource("2_xttfg")]
+transform = Transform3D(0.999993, 0.000869489, -0.00374263, -0.000879681, 0.999996, -0.00272659, 0.00374025, 0.00272985, 0.999989, 0, 0, 0)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="SubViewportContainer/SubViewport/Player"]
+transform = Transform3D(1, -1.81899e-11, 4.65661e-10, -1.27329e-11, 1, 0, 0, 4.65661e-10, 1, -1.69958, -0.00147775, 0.00636096)
+amount = 12
+randomness = 0.5
+process_material = SubResource("ParticleProcessMaterial_71j4m")
+draw_pass_1 = SubResource("SphereMesh_qfnet")
 
 [node name="CameraArm" type="Node3D" parent="SubViewportContainer/SubViewport"]
 script = ExtResource("3_bxfru")

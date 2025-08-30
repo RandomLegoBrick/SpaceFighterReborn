@@ -9,10 +9,10 @@ uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_nearest;
 uniform sampler2D NORMAL_TEXTURE : hint_normal_roughness_texture, filter_nearest;
 
 uniform float lightIntensity = 1.25;
-uniform float lineAlpha = 0.7;
+uniform float lineAlpha = 0.8;
 uniform bool useLighting = true;
-uniform float lineHighlight = 0.2;
-uniform float lineShadow = 0.55;
+uniform float lineHighlight = 0.8;
+uniform float lineShadow = 0.8;
 
 varying vec2 screenUV;
 varying float lineMask;

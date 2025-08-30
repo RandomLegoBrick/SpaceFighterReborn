@@ -1,7 +1,7 @@
 extends Node3D
 
 var shake: float = 0;
-var decay: float = 20;
+var decay: float = 10;
 
 func _physics_process(delta: float) -> void:
 	
